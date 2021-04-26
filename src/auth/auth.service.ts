@@ -4,12 +4,15 @@ import { AuthLoginInput } from "./inputs/login.input";
 import { AuthRegisterInput } from "./inputs/register.input";
 import * as trim from "trim";
 import { HashService } from "src/hash/hash.service";
+import { JwtDto } from "./dto/jwt.dto";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
 
 	constructor(
     private readonly userService: UserService,
+    private readonly jwtService: JwtService,
     private readonly hashService: HashService,
   ) { }
 
@@ -18,7 +21,7 @@ export class AuthService {
 		input.login = trim(input.login);
 		input.password = trim(input.password);
 
-		if (await this.userService.find(input.login)) {
+		if (await this.userService.findByLogin(input.login)) {
 			throw new BadRequestException(`Cannot register with login ${input.login}`);
 		}
 
@@ -40,7 +43,7 @@ export class AuthService {
 		input.login = trim(input.login);
 		input.password = trim(input.password);
 
-		const user = await this.userService.find(input.login);
+		const user = await this.userService.findByLogin(input.login);
 		
 		if (!user) {
 			throw new BadRequestException(`User with this login ${input.login} does not exist`);
@@ -54,7 +57,8 @@ export class AuthService {
 	}
 
 	private signToken(id: string) {
-		return "TEMP TOKEN FOR ID " + id;
+		const payload: JwtDto = {userId: id};
+		return this.jwtService.sign(payload);
 	}
 
 	private verifyLogin(login: string) {
@@ -62,7 +66,7 @@ export class AuthService {
 		return loginPattern.test(login);
 	}
 
-	private passwordValidate(receivePassword: string, password) {
-		
+	public async validateUser(userId: string) {
+		return this.userService.find(userId);
 	}
 }

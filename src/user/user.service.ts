@@ -15,11 +15,13 @@ export class UserService {
 		private readonly hashService: HashService
   ) { }
 
-	async find(login: string) {
-		return await this.userRepository.findOne({login});
+	async find(id: string) {
+		return await this.userRepository.findOne(id);
 	}
 
-	
+	async findByLogin(login: string) {
+		return await this.userRepository.findOne({login});
+	}
 
 	async create(data: CreateUser) {
 		const id = uuid();
