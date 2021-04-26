@@ -4,6 +4,7 @@ import { HashService } from 'src/hash/hash.service';
 import { UserModule } from 'src/user/user.module';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
+import { GqlAuthGuard } from './guards/gqlAuth.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
@@ -16,6 +17,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   providers: [
     AuthResolver,
     AuthService,
+    GqlAuthGuard,
     HashService,
     JwtStrategy
   ]

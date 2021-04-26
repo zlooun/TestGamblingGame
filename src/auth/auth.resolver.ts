@@ -1,5 +1,7 @@
+import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { AuthService } from "./auth.service";
+import { GqlAuthGuard } from "./guards/gqlAuth.guard";
 import { AuthLoginInput } from "./inputs/login.input";
 import { AuthRegisterInput } from "./inputs/register.input";
 import { UserToken } from "./models/userToken.model";
@@ -11,6 +13,7 @@ export class AuthResolver {
     private readonly authService: AuthService,
   ) {}
 
+	@UseGuards(GqlAuthGuard)
 	@Query(() => String)
   sayHello(): string {
     return 'Hello World!';
