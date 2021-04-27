@@ -12,6 +12,8 @@ export class User extends BaseEntity {
 	password: string;
 	@Column({length: 128})
 	salt: string;
+	@Column({default: 100.00})
+	balance: number;
   @CreateDateColumn()
   created: Date;
   @UpdateDateColumn()

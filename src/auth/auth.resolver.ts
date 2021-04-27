@@ -1,12 +1,14 @@
 import { UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { User } from "src/user/user.entity";
 import { AuthService } from "./auth.service";
+import { CtxUser } from "./decorators/ctxUser.decorator";
 import { GqlAuthGuard } from "./guards/gqlAuth.guard";
 import { AuthLoginInput } from "./inputs/login.input";
 import { AuthRegisterInput } from "./inputs/register.input";
 import { UserToken } from "./models/userToken.model";
 
-@Resolver()
+@Resolver("auth")
 export class AuthResolver {
 
 	constructor(
@@ -15,7 +17,9 @@ export class AuthResolver {
 
 	@UseGuards(GqlAuthGuard)
 	@Query(() => String)
-  sayHello(): string {
+  sayHello(
+		@CtxUser() user: User
+	): string {
     return 'Hello World!';
   }
 

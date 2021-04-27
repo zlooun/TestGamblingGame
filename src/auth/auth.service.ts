@@ -30,8 +30,6 @@ export class AuthService {
 		}
 		
 		const createdUser = await this.userService.create(input);
-		console.log(createdUser);
-
 		return {
 			user: createdUser,
 			token: this.signToken(createdUser.id)

@@ -14,10 +14,7 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
       database: process.env.TYPEORM_DATABASE,
       entities: [join(__dirname, process.env.TYPEORM_ENTITIES)],
       synchronize: JSON.parse(process.env.TYPEORM_SYNCHRONIZE.toLowerCase())
-    };
-
-		console.log(options)
-    
+    };    
     return options;
   }
 }

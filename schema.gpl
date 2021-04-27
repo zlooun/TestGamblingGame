@@ -14,13 +14,20 @@ type UserToken {
   user: User!
 }
 
+type MainGameResult {
+  gameId: ID!
+  result: Boolean!
+}
+
 type Query {
   sayHello: String!
+  getGameResult(id: String!): String!
 }
 
 type Mutation {
   register(input: AuthRegisterInput!): UserToken!
   login(input: AuthLoginInput!): UserToken!
+  startGame(bet: Float!): ID!
 }
 
 input AuthRegisterInput {
@@ -32,4 +39,8 @@ input AuthRegisterInput {
 input AuthLoginInput {
   login: String!
   password: String!
+}
+
+type Subscription {
+  getMainGameResultSub: MainGameResult
 }

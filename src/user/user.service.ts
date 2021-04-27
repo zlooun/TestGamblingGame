@@ -35,4 +35,21 @@ export class UserService {
 		user.name = data.name;
 		return await this.userRepository.save(user);
 	}
+
+	async pay(userId: string, amount: number) {
+		const user = await this.userRepository.findOne(userId);
+
+		if (user.balance < amount) {
+			throw new Error("Insufficient funds");
+		}
+
+		user.balance = user.balance - amount;
+		user.save();
+	}
+
+	async addMoney(userId: string, amount: number) {
+		const user = await this.userRepository.findOne(userId);
+		user.balance = user.balance + amount;
+		user.save();
+	}
 }
